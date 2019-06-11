@@ -1,6 +1,15 @@
 from flask import Flask, render_template, request
+import psycopg2
 
 app = Flask(__name__)
+
+
+def herokudb():
+    Host = 'ec2-54-247-72-30.eu-west-1.compute.amazonaws.com'
+    Database = 'dfp9ni1rfj79li'
+    User = 'bfsgffjyfxafko'
+    Password = '8fcd565921915578936c493b3db9ac3a622996e354e12a4df7c4d9b73a717db0'
+    return psycopg2.connect(host=Host, database=Database, user=User, password=Password, sslmode='require')
 
 
 def gravar(v1, v2):
@@ -26,16 +35,6 @@ def alterar(v1, v2):
 
 
 def existe(v1):
-    import sqlite3
-    ficheiro = sqlite3.connect('db/Utilizadores.db')
-    db = ficheiro.cursor()
-    db.execute("SELECT * FROM usr WHERE usr = ? ", (v1,))
-    valor = db.fetchone()
-    ficheiro.close()
-    return valor
-
-
-def existe(v1):
     try:
         import sqlite3
         ficheiro = sqlite3.connect('db/Utilizadores.db')
@@ -46,7 +45,6 @@ def existe(v1):
     except:
         valor = None
     return valor
-
 
 
 def log(v1, v2):
